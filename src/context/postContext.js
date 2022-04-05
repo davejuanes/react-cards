@@ -13,7 +13,7 @@ export const usePosts = () => {
 export const PostProvider = ({ children }) => {
   // Data
   const [posts, setPosts] = useState([]);
-  //Dave
+
   // funciones que interactuan con el cliente http
   const crearPost = async (post) => {
     const res = await createPostReq(post);
