@@ -5,12 +5,6 @@ const base_url = {
     prod: 'https://educomser.herokuapp.com'
 }
 
-// inicia la var
-
-// peticion al servidor
-
-// una vez se tiene la data del servidor, se establece el valor a la var []
-
 export const createPostReq = async (post) => {
     const form = new FormData();
     for(let key in post) {
