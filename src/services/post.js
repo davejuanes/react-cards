@@ -5,6 +5,12 @@ const base_url = {
     prod: 'https://educomser.herokuapp.com'
 }
 
+/* export const getPostsReq = async () => {
+    return await axios.get(`${base_url.prod}/all-posts`);
+} */
+
+export const getPostsReq = async () => await axios.get(`${base_url.prod}/all-posts`);
+
 export const createPostReq = async (post) => {
     const form = new FormData();
     for(let key in post) {
