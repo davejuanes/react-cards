@@ -3,7 +3,7 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { usePosts } from '../../context/postContext';
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import * as Yup from 'yup';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { Loading } from "../../components/Loading";
 
@@ -13,6 +13,7 @@ export const PostUpdate = () => {
   const params = useParams();
   const [post, setPost] = useState({ titulo: "", descripcion: "", imagen: {} });
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function init() {
@@ -74,9 +75,20 @@ export const PostUpdate = () => {
               </div>
 
               <div className="flex items-center justify-between">
+                <button 
+                  className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                  type="button"
+                  onClick={(e) => { e.preventDefault(); navigate(-1); }}
+                >
+                  Volver
+                </button>
+                
                 <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit" disabled={isSubmitting}>
                   { isSubmitting ? (<AiOutlineLoading3Quarters className="animate-spin h-5 w-5" />) : ("Actualizar") }
                 </button>
+              {/* </div>
+              <div className="flex items-center justify-between"> */}
+                
               </div>
             </Form>
           )
