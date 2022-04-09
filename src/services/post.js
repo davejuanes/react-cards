@@ -11,6 +11,8 @@ const base_url = {
 
 export const getPostsReq = async () => await axios.get(`${base_url.prod}/all-posts`);
 
+export const getPostReq = async (id) => await axios.get(`${base_url.prod}/post/${id}`);
+
 export const createPostReq = async (post) => {
     const form = new FormData();
     for(let key in post) {

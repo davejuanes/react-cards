@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { createPostReq, getPostsReq } from "../services/post";
+import { createPostReq, getPostReq, getPostsReq } from "../services/post";
 
 // Creamos el contexto
 const postContext = createContext();
@@ -17,23 +17,42 @@ export const PostProvider = ({ children }) => {
   // funciones que interactuan con el cliente http
   // y que modifican una parte del State
   const getPosts = async () => {
-    const res = await getPostsReq();
-    setPosts(res.data.posts);
-  }
+    try {
+      const res = await getPostsReq();
+      setPosts(res.data.posts);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getPost = async (id) => {
+    try {
+      const res = await getPostReq(id);
+      return res.data.post;
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const crearPost = async (post) => {
-    const res = await createPostReq(post);
-    setPosts([...posts, res.data.post]);
-  }
+    try {
+      const res = await createPostReq(post);
+      setPosts([...posts, res.data.post]);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   // Renderiza el componente
-  useEffect(() => { getPosts(); },[])
+  useEffect(() => {
+    getPosts();
+  }, []);
 
   // Retornamos el context provider, y la data o valores
   // que pueden ser accedidos por los componentes hijos
   return (
-      <postContext.Provider value={ { posts, crearPost, getPosts } }>
-        { children }
-      </postContext.Provider>
-  )
-}
+    <postContext.Provider value={{ posts, crearPost, getPosts, getPost }}>
+      {children}
+    </postContext.Provider>
+  );
+};
