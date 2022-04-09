@@ -18,8 +18,10 @@ export const createPostReq = async (post) => {
     for(let key in post) {
         form.append(key, post[key]);
     }
-
+    
     return await axios.post(base_url.prod+'/post', form, {
         headers: { 'Content-Type': 'multipart/form-data' }
     })
 }
+
+export const deletePostReq = async (id) => await axios.delete(`${base_url.prod}/post/${id}`);

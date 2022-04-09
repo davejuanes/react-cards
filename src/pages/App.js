@@ -6,6 +6,7 @@ import { NotFound } from "./NotFound/NotFound";
 import { NavBar } from "../components/NavBar";
 import "./App.css";
 import { Footer } from "../components/Footer";
+import { Post } from "./Post/Post";
 import { Toaster } from "react-hot-toast";
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
             <Routes>
               <Route path="/" element={<HomePost />}></Route>
               <Route path="nueva" element={<FormPost />}></Route>
+              <Route path="publicacion/:id/" element={<Post />}></Route>
               <Route path="*" element={<NotFound />}></Route>
             </Routes>
             <Toaster />

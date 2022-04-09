@@ -4,6 +4,9 @@ import { BrowserRouter } from "react-router-dom";
 import "./index.css";
 import App from "./pages/App";
 import './index.css';
+import moment from "moment";
+import 'moment/locale/es';
+moment.locale('es');
 
 ReactDOM.render(
   <React.StrictMode>
