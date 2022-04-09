@@ -1,26 +1,48 @@
-import { usePosts } from '../../context/postContext';
+import { useState, useEffect } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { usePosts } from '../../context/postContext';
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import * as Yup from 'yup';
+import { useParams } from 'react-router-dom';
+import toast from 'react-hot-toast';
 
 
 export const PostUpdate = () => {
-  const {  } = usePosts();
+  const { getPost, updatePost } = usePosts();
+  const params = useParams();
+  const [post, setPost] = useState({ titulo: "", descripcion: "", imagen: {} });
+
+  useEffect(() => {
+    async function init() {
+      if (params.id) {
+        const postTemp = await getPost(params.id);
+        setPost(postTemp);
+      }
+    }
+    init();
+  }, [params.id, getPost]);
 
   return (
     <div className="w-full max-w-lg m-auto mt-6">
       <p className='text-white text-lg text-center mb-6'>Editar publicación</p>
       <Formik 
-        initialValues={ {titulo: '', descripcion: ''} }
+        initialValues={ post }
+        enableReinitialize
         validationSchema={Yup.object({ 
           titulo: Yup.string().required('El titulo es requerido'),
           descripcion: Yup.string().required('La descripcion es obligatoria')
         })}
-        onSubmit={ async (values, action) => {} }
+        onSubmit={ 
+          async (values, action) => {
+            await updatePost(params.id, values);
+            // msg
+            toast.success('Post actualizado!')
+          }
+        }
       >
         {
           ({handleSubmit, isSubmitting}) => (
-            <Form className="bg-zinc-800 shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col" onSubmit={handleSubmit}>
+            <Form className="bg-zinc-800 shadow-md rounded px-8 pt-6 pb-8 mb-20 flex flex-col" onSubmit={handleSubmit}>
               <div className="mb-4">
                 <label className="block text-white text-sm font-bold mb-2" htmlFor="username">Titulo de la publicación</label>
                 <Field className="bg-zinc-700 shadow appearance-none border rounded w-full py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline" name="titulo" type="text"/>
@@ -35,7 +57,7 @@ export const PostUpdate = () => {
 
               <div className="mb-4">
                 <label className="block text-white text-sm font-bold mb-2" htmlFor="password">Imagen de la publicación</label>
-                <img className="w-full" src='' alt="Imagen publicación" />
+                <img className="w-full" src={post.imagen.url} alt="Imagen publicación" />
               </div>
 
               <div className="flex items-center justify-between">

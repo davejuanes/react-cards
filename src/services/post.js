@@ -24,4 +24,6 @@ export const createPostReq = async (post) => {
     })
 }
 
+export const updatePostReq = async (id, fields) => await axios.put(`${base_url.prod}/post/${id}`, fields);
+
 export const deletePostReq = async (id) => await axios.delete(`${base_url.prod}/post/${id}`);

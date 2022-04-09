@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { createPostReq, deletePostReq, getPostReq, getPostsReq } from "../services/post";
+import { createPostReq, deletePostReq, getPostReq, getPostsReq, updatePostReq } from "../services/post";
 
 // Creamos el contexto
 const postContext = createContext();
@@ -43,6 +43,17 @@ export const PostProvider = ({ children }) => {
     }
   };
 
+  const updatePost = async (id, post) => {
+    try {
+      const res = await updatePostReq(id, post);
+      setPosts(
+        posts.map( post => (post.id === id ? res.data.post : post) )
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const deletePost = async (id) => {
     try {
       await deletePostReq(id);
@@ -60,7 +71,7 @@ export const PostProvider = ({ children }) => {
   // Retornamos el context provider, y la data o valores
   // que pueden ser accedidos por los componentes hijos
   return (
-    <postContext.Provider value={{ posts, crearPost, getPosts, getPost, deletePost }}>
+    <postContext.Provider value={{ posts, crearPost, getPosts, getPost, updatePost, deletePost }}>
       {children}
     </postContext.Provider>
   );
