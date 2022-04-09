@@ -5,22 +5,35 @@ import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import * as Yup from 'yup';
 import { useParams } from 'react-router-dom';
 import toast from 'react-hot-toast';
+import { Loading } from "../../components/Loading";
 
 
 export const PostUpdate = () => {
   const { getPost, updatePost } = usePosts();
   const params = useParams();
   const [post, setPost] = useState({ titulo: "", descripcion: "", imagen: {} });
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function init() {
       if (params.id) {
         const postTemp = await getPost(params.id);
         setPost(postTemp);
+        setLoading(false);
       }
     }
     init();
   }, [params.id, getPost]);
+
+  if (loading) {
+    return (
+      <div className="w-full max-w-md m-auto mt-6 pb-20">
+        <div className="bg-zinc-800 max-w-md rounded overflow-hidden shadow-lg">
+          <Loading />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="w-full max-w-lg m-auto mt-6">
